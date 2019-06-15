@@ -1,12 +1,19 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+import os
+
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
+app.config.from_object(os.environ['APP_SETTINGS'])
+
+db = SQLAlchemy(app)
 
 
 @app.route('/')
 def index():
-    return 'This is the home'
+    return render_template('home.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,9 +62,9 @@ def do_the_booking():
 if __name__ == '__main__':
 
     app.config['DEBUG'] = True
-    db = SQLAlchemy()
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bookameeting@localhost:5432'
-    db.init_app(app)
+    # db = SQLAlchemy()
+    #
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bookameeting@localhost:5432'
+    # db.init_app(app)
 
     app.run()
