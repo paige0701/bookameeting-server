@@ -39,21 +39,17 @@ class MeetingRoom(db.Model, AddUpdateDelete):
     capacity = db.Column(db.Integer, nullable=False)
     create_date = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
     modify_date = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __init__(self, name, capacity, create_date, modify_date):
+    def __init__(self, name, capacity):
         self.name = name
         self.capacity = capacity
-        self.create_date = create_date
-        self.modify_date = modify_date
 
 
 # 회의실 스키마 (마시멜로)
-class MeetingRoomSchema(ma.ModelSchema):
-    class Meta:
-        table = MeetingRoom.__table__
-
-
+class MeetingRoomSchema(ma.Schema):
+    id = fields.Integer()
+    name = fields.String(required=True, validate=validate.Length(1))
+    capacity = fields.Integer()
 
 # # 유저
 # class User(db.model, UserMixin):

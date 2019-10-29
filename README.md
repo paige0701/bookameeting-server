@@ -69,3 +69,21 @@ connect to `bookameeting` database with user `bookameeting`
 ```
 psql bookameeting -U bookameeting
 ```
+
+check tables
+```
+\dt
+```
+
+
+## Migrate 
+```
+python migrate.py db init
+python migrate.py db migrate
+python migrate.py db upgrade
+```
+
+## To run
+```
+python run.py
+```
