@@ -50,6 +50,18 @@ class MeetingRoomResource(Resource):
             db.session.rollback()
             return str(e), 401
 
+    def patch(self, id):
+        room = MeetingRoom.query.filter((getattr(MeetingRoom, 'id') == id)).first()
+        request_dict = request.get_json()
+        try:
+            room.capacity = request_dict['capacity']
+            meeting_room_schema.dump(room)
+            room.update()
+            return self.get(id), 200
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            return str(e), 401
+
 
 api.add_resource(MeetingRoomResource, '/meetingrooms/<int:id>')
 api.add_resource(MeetingRoomListResource, '/meetingrooms')
